@@ -41,12 +41,18 @@ def submit_data():
         respuestaSaludar = "Hola rocket te saluda"
         print(respuestaSaludar)
         return jsonify({"mensaje": f" {respuestaSaludar}"}), 200
-    
+
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')  # o 'http://localhost:5173'
+    response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+    return response
 
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))  # 5000 como fallback local
-    app.run(debug=True,host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port)
 
     
     
